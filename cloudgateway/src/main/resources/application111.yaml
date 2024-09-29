@@ -1,0 +1,19 @@
+server:
+  port: 8083
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: employeeModule
+          uri: https://api.staging.dpa0.org/
+          predicates:
+            - Path=/v1/**
+          filters:
+            - RewritePath=/v1/employee, /v1/org/integrated/services
+            - name: TokenExchangeFilter
+
+# Custom properties
+token:
+  exchange:
+    url: https://api.staging.dpa0.org/oauth/token/exchange
